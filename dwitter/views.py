@@ -5,14 +5,13 @@ from .forms import DweetForm
 
 # Create your views here.
 def dashboard(request):
+    form = DweetForm(request.POST or None)
     if request.method == "POST":
-        form = DweetForm(request.POST)
         if form.is_valid():
             dweet = form.save(commit=False)
             dweet.user = request.user
             dweet.save()
             return redirect("dwitter:dashboard")
-    form = DweetForm()
     return render(request, "dwitter/dashboard.html", {"form": form})
 def profile_list(request):
     profiles = Profile.objects.exclude(user=request.user)
