@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="column is-half is-offset-one-quarter">
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">
+                Login
+            </p>
+        </header>
+        <div class="card-content">
+            <form method="post">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <div class="field">
+                        <label class="label">{{ field.label }}</label>
+                        <div class="control">
+                            {{ field }}
+                        </div>
+                        {% if field.errors %}
+                            <p class="help is-danger">{{ field.errors|join:", " }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <!-- Handle redirection after login -->
+                <input type="hidden" name="next" value="{% url 'dwitter:dashboard' %}" />
+
+                <div class="field is-grouped is-grouped-right mt-4">
+                    <div class="control">
+                        <button type="submit" class="button is-primary">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <footer class="card-footer">
+            <a href="{% url 'dwitter:sign_up' %}" class="card-footer-item">Sign up</a>
+        </footer>
+    </div>
+</div>
+{% endblock content %}

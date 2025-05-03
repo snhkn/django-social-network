@@ -1,9 +1,15 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse
 from .models import Profile, Dweet
 from .forms import DweetForm
 
 
 # Create your views here.
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def dashboard(request):
     form = DweetForm(request.POST or None)
     if request.method == "POST":
@@ -21,6 +27,20 @@ def dashboard(request):
         "dwitter/dashboard.html",
         {"form": form, "dweets": followed_dweets},
     )
+
+
+def sign_up(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect(reverse("dwitter:dashboard"))
+    else:
+        form = UserCreationForm()
+    return render(request, "registration/sign_up.html", {"form": form})
+
+
 def profile_list(request):
     profiles = Profile.objects.exclude(user=request.user)
     return render(request, "dwitter/profile_list.html", {"profiles": profiles})

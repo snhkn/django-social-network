@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="column is-half is-offset-one-quarter">
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">
+                Sign Up
+            </p>
+        </header>
+        <div class="card-content">
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- Loop through form fields and apply Bulma classes -->
+                {% for field in form %}
+                    <div class="field">
+                        <label class="label">{{ field.label }}</label>
+                        <div class="control">
+                            {{ field }}
+                        </div>
+                        {% if field.errors %}
+                            <p class="help is-danger">{{ field.errors|join:", " }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <div class="field is-grouped is-grouped-right mt-4">
+                    <div class="control">
+                        <button type="submit" class="button is-success">Sign Up</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <footer class="card-footer">
+            <a href="{% url 'login' %}" class="card-footer-item">Login</a>
+        </footer>
+    </div>
+</div>
+{% endblock content %}

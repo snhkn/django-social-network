@@ -26,16 +26,18 @@
     </div>
 
     <div class="block">
+        {% if request.user.is_authenticated %}
         <a href="{% url 'dwitter:profile' request.user.profile.id %} ">
             <button class="button is-success is-light is-outlined is-fullwidth">
                 My Profile
             </button>
         </a>
+        {% endif %}
     </div>
 
     <div class="block">
         <div class="block">
-            <h2 class="title is-2">Add a Dweet</p>
+            <h2 class="title is-2">Add a Dweet</h2>
         </div>
         <div class="block">
             <form method="post">
@@ -48,6 +50,12 @@
         </div>
     </div>
 
+    {% if user.is_authenticated %}
+        {% include "registration/_logout.html" %}
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'sign_up' %}">Sign up</a>
+    {% endif %}
 </div>
 
 {% endblock content %}
