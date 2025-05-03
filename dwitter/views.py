@@ -4,7 +4,7 @@ from .models import Profile
 
 # Create your views here.
 def dashboard(request):
-    return render(request, "base.html")
+    return render(request, "dwitter/dashboard.html")
 
 
 def profile_list(request):
